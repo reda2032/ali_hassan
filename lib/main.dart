@@ -1,4 +1,4 @@
-import 'package:ali_hassan/flower_app/pages/details_screen.dart';
+import 'package:ali_hassan/flower_app/pages/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flower App',
-      home: Details(), //Home(),
+      home: Home(),
     );
   }
 }

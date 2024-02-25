@@ -1,4 +1,5 @@
 import 'package:ali_hassan/flower_app/model/item.dart';
+import 'package:ali_hassan/flower_app/pages/details_screen.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -108,7 +109,15 @@ class Home extends StatelessWidget {
             itemCount: items.length,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Details(
+                          product: items[index],
+                        ),
+                      ));
+                },
                 child: GridTile(
                   footer: GridTileBar(
                     // backgroundColor: Color.fromARGB(66, 73, 127, 110),
@@ -118,7 +127,7 @@ class Home extends StatelessWidget {
                       icon: const Icon(Icons.add),
                     ),
 
-                    leading: const Text("\$12.99"),
+                    leading: Text('\$ ${items[index].price}'),
 
                     title: const Text(
                       "",

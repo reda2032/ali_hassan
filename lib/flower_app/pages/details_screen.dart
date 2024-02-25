@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:ali_hassan/flower_app/model/item.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class Details extends StatefulWidget {
-  const Details({super.key});
+  Item product;
+  Details({super.key, required this.product});
 
   @override
   State<Details> createState() => _DetailsState();
@@ -59,12 +62,12 @@ class _DetailsState extends State<Details> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset("assets/img/2.webp"),
+              Image.asset(widget.product.imgPath),
               SizedBox(
                 height: 11,
               ),
               Text(
-                "\$ 12.99",
+                "\$ ${widget.product.price}",
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(
