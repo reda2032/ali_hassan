@@ -1,7 +1,9 @@
 import 'package:ali_hassan/flower_app/model/item.dart';
 import 'package:ali_hassan/flower_app/pages/details_screen.dart';
+import 'package:ali_hassan/flower_app/provider/cart_provider.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -66,16 +68,21 @@ class Home extends StatelessWidget {
                   Positioned(
                     bottom: 24,
                     child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: const BoxDecoration(
-                            color: Color.fromARGB(211, 164, 255, 193),
-                            shape: BoxShape.circle),
-                        child: const Text(
-                          "8",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 0, 0, 0)),
-                        )),
+                      padding: const EdgeInsets.all(5),
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(211, 164, 255, 193),
+                          shape: BoxShape.circle),
+                      child: Consumer<CartProvider>(
+                        builder: ((context, classInstance, child) {
+                          return Text(
+                            classInstance.selectedProducts.length.toString(),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 0, 0, 0)),
+                          );
+                        }),
+                      ),
+                    ),
                   ),
                   // add_shopping_cart
                   IconButton(
@@ -85,11 +92,15 @@ class Home extends StatelessWidget {
                 ],
               ),
               // value 13 usd
-              const Padding(
-                padding: EdgeInsets.only(right: 12),
-                child: Text(
-                  "\$ 13",
-                  style: TextStyle(fontSize: 18),
+              Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: Consumer<CartProvider>(
+                  builder: ((context, classInstance, child) {
+                    return Text(
+                      classInstance.price.toString(),
+                      style: const TextStyle(fontSize: 18),
+                    );
+                  }),
                 ),
               ),
             ],
@@ -121,10 +132,16 @@ class Home extends StatelessWidget {
                 child: GridTile(
                   footer: GridTileBar(
                     // backgroundColor: Color.fromARGB(66, 73, 127, 110),
-                    trailing: IconButton(
-                      color: const Color.fromARGB(255, 62, 94, 70),
-                      onPressed: () {},
-                      icon: const Icon(Icons.add),
+                    trailing: Consumer<CartProvider>(
+                      builder: ((context, classInstance, child) {
+                        return IconButton(
+                          color: const Color.fromARGB(255, 62, 94, 70),
+                          onPressed: () {
+                            classInstance.add(items[index]);
+                          },
+                          icon: const Icon(Icons.add),
+                        );
+                      }),
                     ),
 
                     leading: Text('\$ ${items[index].price}'),
