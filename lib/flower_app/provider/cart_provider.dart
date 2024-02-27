@@ -18,4 +18,8 @@ class CartProvider with ChangeNotifier {
     price -= product.price.round();
     notifyListeners();
   }
+
+  get itemCount {
+    return selectedProducts.length;
+  }
 }

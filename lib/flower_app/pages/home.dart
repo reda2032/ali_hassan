@@ -1,4 +1,5 @@
 import 'package:ali_hassan/flower_app/model/item.dart';
+import 'package:ali_hassan/flower_app/pages/checkout.dart';
 import 'package:ali_hassan/flower_app/pages/details_screen.dart';
 import 'package:ali_hassan/flower_app/provider/cart_provider.dart';
 import 'package:ali_hassan/flower_app/shared/appbar.dart';
@@ -38,11 +39,25 @@ class Home extends StatelessWidget {
                 ListTile(
                     title: const Text("Home"),
                     leading: const Icon(Icons.home),
-                    onTap: () {}),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Home(),
+                        ),
+                      );
+                    }),
                 ListTile(
                     title: const Text("My products"),
                     leading: const Icon(Icons.add_shopping_cart),
-                    onTap: () {}),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CheckOut(),
+                        ),
+                      );
+                    }),
                 ListTile(
                     title: const Text("About"),
                     leading: const Icon(Icons.help_center),
