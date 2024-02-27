@@ -10,6 +10,8 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
       drawer: Drawer(
         child: Column(
@@ -72,15 +74,10 @@ class Home extends StatelessWidget {
                       decoration: const BoxDecoration(
                           color: Color.fromARGB(211, 164, 255, 193),
                           shape: BoxShape.circle),
-                      child: Consumer<CartProvider>(
-                        builder: ((context, classInstance, child) {
-                          return Text(
-                            classInstance.selectedProducts.length.toString(),
-                            style: const TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 0, 0, 0)),
-                          );
-                        }),
+                      child: Text(
+                        cartProvider.selectedProducts.length.toString(),
+                        style: const TextStyle(
+                            fontSize: 16, color: Color.fromARGB(255, 0, 0, 0)),
                       ),
                     ),
                   ),
@@ -94,13 +91,9 @@ class Home extends StatelessWidget {
               // value 13 usd
               Padding(
                 padding: const EdgeInsets.only(right: 12),
-                child: Consumer<CartProvider>(
-                  builder: ((context, classInstance, child) {
-                    return Text(
-                      classInstance.price.toString(),
-                      style: const TextStyle(fontSize: 18),
-                    );
-                  }),
+                child: Text(
+                  cartProvider.price.toString(),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
             ],
