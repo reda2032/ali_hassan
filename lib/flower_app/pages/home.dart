@@ -1,6 +1,7 @@
 import 'package:ali_hassan/flower_app/model/item.dart';
 import 'package:ali_hassan/flower_app/pages/details_screen.dart';
 import 'package:ali_hassan/flower_app/provider/cart_provider.dart';
+import 'package:ali_hassan/flower_app/shared/appbar.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -61,8 +62,9 @@ class Home extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        actions: [
-          Row(
+        actions: const [
+          ProductsAndPrice(),
+          /* Row(
             children: [
               Stack(
                 children: [
@@ -97,7 +99,7 @@ class Home extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ),*/
         ],
         backgroundColor: appbarGreen,
         title: const Text("Home"),
@@ -125,16 +127,12 @@ class Home extends StatelessWidget {
                 child: GridTile(
                   footer: GridTileBar(
                     // backgroundColor: Color.fromARGB(66, 73, 127, 110),
-                    trailing: Consumer<CartProvider>(
-                      builder: ((context, classInstance, child) {
-                        return IconButton(
-                          color: const Color.fromARGB(255, 62, 94, 70),
-                          onPressed: () {
-                            classInstance.add(items[index]);
-                          },
-                          icon: const Icon(Icons.add),
-                        );
-                      }),
+                    trailing: IconButton(
+                      color: const Color.fromARGB(255, 62, 94, 70),
+                      onPressed: () {
+                        cartProvider.add(items[index]);
+                      },
+                      icon: const Icon(Icons.add),
                     ),
 
                     leading: Text('\$ ${items[index].price}'),
