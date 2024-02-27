@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1044611157857",
+    "project_id": "flower-5809e",
+    "storage_bucket": "flower-5809e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044611157857:android:680d40702552137b0eff20",
+        "android_client_info": {
+          "package_name": "com.redaWork2032.ali_hassan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhDkFIPa5OklBg51TEEHSYm60pyzxjzUM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
