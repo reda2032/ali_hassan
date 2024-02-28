@@ -4,8 +4,25 @@ import 'package:flutter/material.dart';
 
 import '../shared/custom_textfield.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final emailController = TextEditingController();
+
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +35,8 @@ class Login extends StatelessWidget {
             children: [
               const SizedBox(height: 64.0),
               // Enter Your Email
-              const MyTextField(
+              MyTextField(
+                controller: emailController,
                 hintText: 'Enter Your Email :',
                 isPassword: false,
                 textInputType: TextInputType.emailAddress,
@@ -26,7 +44,8 @@ class Login extends StatelessWidget {
 
               const SizedBox(height: 32.0),
               // Enter Your Password
-              const MyTextField(
+              MyTextField(
+                controller: passwordController,
                 hintText: 'Enter Your Password :',
                 isPassword: true,
                 textInputType: TextInputType.emailAddress,

@@ -1,5 +1,5 @@
 import 'package:ali_hassan/firebase_options.dart';
-import 'package:ali_hassan/flower_app/pages/home.dart';
+import 'package:ali_hassan/flower_app/pages/register.dart';
 import 'package:ali_hassan/flower_app/provider/cart_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flower App',
-        home: Home(),
+        home: Register(),
       ),
     );
   }
