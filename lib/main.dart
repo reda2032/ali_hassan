@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         return CartProvider();
       },
       child: const MaterialApp(
+        // theme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
         title: 'Flower App',
         home: Register(),

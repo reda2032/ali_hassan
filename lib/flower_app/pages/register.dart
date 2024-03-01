@@ -1,6 +1,7 @@
 import 'package:ali_hassan/flower_app/pages/login.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
 import 'package:ali_hassan/flower_app/shared/custom_textfield.dart';
+import 'package:ali_hassan/flower_app/shared/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -28,12 +29,16 @@ class _RegisterState extends State<Register> {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        showSnackBar(context, 'The password provided is too weak.');
+        // print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        showSnackBar(context, 'The account already exists for that email.');
+        //  print('The account already exists for that email.');
+      } else {
+        showSnackBar(context, "ERROR - Please try again late");
       }
     } catch (e) {
-      print(e);
+      showSnackBar(context, e.toString());
     }
 
     setState(() {
