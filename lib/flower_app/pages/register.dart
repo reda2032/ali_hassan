@@ -15,6 +15,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   bool isLoading = false;
+  bool isVisable = true;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -69,47 +70,57 @@ class _RegisterState extends State<Register> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 64.0),
-                // Enter Your Email
-                /* MyTextField(
-                  validator: (){},
-                  controller: emailController,
-                  hintText: 'Enter Your User Name :',
-                  isPassword: false,
-                  textInputType: TextInputType.text,
-                ),*/
-                const SizedBox(height: 32.0),
-                // password
+                //   Enter Your user name
                 TextFormField(
-                    // we return "null" when something is valid
-                    validator: (value) {
-                      return value != null && !EmailValidator.validate(value)
-                          ? "Enterrrr a valid email"
-                          : null;
-                    },
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    obscureText: false,
-                    decoration: decorationTextfield.copyWith(
+                  keyboardType: TextInputType.text,
+                  controller: emailController,
+                  decoration: decorationTextfield.copyWith(
+                      hintText: "Enter Your User Name : ",
+                      suffixIcon: const Icon(Icons.person)),
+                ),
+                const SizedBox(height: 32.0),
+                // Email
+                TextFormField(
+                  // we return "null" when something is valid
+                  validator: (value) {
+                    return value != null && !EmailValidator.validate(value)
+                        ? "Enterrrr a valid email"
+                        : null;
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  obscureText: false,
+                  decoration: decorationTextfield.copyWith(
                       hintText: "Enter Your Email : ",
-                    )),
+                      suffixIcon: const Icon(Icons.email)),
+                ),
 
                 const SizedBox(height: 32.0),
                 // Enter Your Password
                 TextFormField(
-                    // we return "null" when something is valid
-                    validator: (value) {
-                      return value!.length < 8
-                          ? "Enter at least 8 characters"
-                          : null;
-                    },
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: passwordController,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    decoration: decorationTextfield.copyWith(
+                  // we return "null" when something is valid
+                  validator: (value) {
+                    return value!.length < 8
+                        ? "Enter at least 8 characters"
+                        : null;
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: passwordController,
+                  keyboardType: TextInputType.text,
+                  obscureText: isVisable ? true : false,
+                  decoration: decorationTextfield.copyWith(
                       hintText: "Enter Your Password : ",
-                    )),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isVisable = !isVisable;
+                            });
+                          },
+                          icon: isVisable
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off))),
+                ),
                 const SizedBox(height: 32.0),
                 // Sign in Register
                 ElevatedButton(
@@ -122,7 +133,8 @@ class _RegisterState extends State<Register> {
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(BTNgreen),
-                    padding: MaterialStateProperty.all(EdgeInsets.all(12)),
+                    padding:
+                        MaterialStateProperty.all(const EdgeInsets.all(12)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8))),
                   ),
