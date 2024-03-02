@@ -1,6 +1,8 @@
 import 'package:ali_hassan/firebase_options.dart';
-import 'package:ali_hassan/flower_app/pages/register.dart';
+import 'package:ali_hassan/flower_app/pages/home.dart';
+import 'package:ali_hassan/flower_app/pages/login.dart';
 import 'package:ali_hassan/flower_app/provider/cart_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,11 +25,20 @@ class MyApp extends StatelessWidget {
       create: (context) {
         return CartProvider();
       },
-      child: const MaterialApp(
+      child: MaterialApp(
         // theme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
         title: 'Flower App',
-        home: Register(),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Home();
+            } else {
+              return Login();
+            }
+          },
+        ),
       ),
     );
   }

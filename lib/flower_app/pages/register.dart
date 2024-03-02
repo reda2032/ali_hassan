@@ -294,9 +294,16 @@ class _RegisterState extends State<Register> {
                 ),
                 // Sign in Register
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      register();
+                      await register();
+                      if (!mounted) return;
+                      showSnackBar(context, 'D O N E . . .');
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login()),
+                      );
                     } else {
                       showSnackBar(context, "ERROR");
                     }

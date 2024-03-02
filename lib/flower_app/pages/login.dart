@@ -1,5 +1,8 @@
+import 'package:ali_hassan/flower_app/pages/home.dart';
 import 'package:ali_hassan/flower_app/pages/register.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
+import 'package:ali_hassan/flower_app/shared/snackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../shared/custom_textfield.dart';
@@ -15,6 +18,20 @@ class _LoginState extends State<Login> {
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
+
+  signIn() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      showSnackBar(context, "doneee");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        showSnackBar(context, "No user found for that email.");
+      } else if (e.code == 'wrong-password') {
+        showSnackBar(context, "Wrong password provided for that user.");
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -53,7 +70,14 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 32.0),
               // Sign in
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  if (!mounted) return;
+                  await signIn();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(BTNgreen),
                   padding: MaterialStateProperty.all(const EdgeInsets.all(12)),

@@ -4,6 +4,8 @@ import 'package:ali_hassan/flower_app/pages/details_screen.dart';
 import 'package:ali_hassan/flower_app/provider/cart_provider.dart';
 import 'package:ali_hassan/flower_app/shared/appbar.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
+import 'package:ali_hassan/flower_app/shared/snackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -65,7 +67,10 @@ class Home extends StatelessWidget {
                 ListTile(
                     title: const Text("Logout"),
                     leading: const Icon(Icons.exit_to_app),
-                    onTap: () {}),
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
+                      showSnackBar(context, "signOut ... ");
+                    }),
               ],
             ),
             Container(
