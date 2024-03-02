@@ -16,6 +16,41 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   bool isLoading = false;
   bool isVisable = true;
+  bool isPassword8Char = false;
+  bool isPasswordHas1Number = false;
+  bool hasUppercase = false;
+  bool hasLowercase = false;
+  bool hasSpecialCharacters = false;
+
+  onPasswordChanged(String password) {
+    isPassword8Char = false;
+    isPasswordHas1Number = false;
+    hasUppercase = false;
+    hasLowercase = false;
+    hasSpecialCharacters = false;
+    setState(() {
+      if (password.contains(RegExp(r'.{8,}'))) {
+        isPassword8Char = true;
+      }
+
+      if (password.contains(RegExp(r'[0-9]'))) {
+        isPasswordHas1Number = true;
+      }
+
+      if (password.contains(RegExp(r'[A-Z]'))) {
+        hasUppercase = true;
+      }
+
+      if (password.contains(RegExp(r'[a-z]'))) {
+        hasLowercase = true;
+      }
+
+      if (password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+        hasSpecialCharacters = true;
+      }
+    });
+  }
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -69,7 +104,7 @@ class _RegisterState extends State<Register> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 64.0),
+                // const SizedBox(height: 64.0),
                 //   Enter Your user name
                 TextFormField(
                   keyboardType: TextInputType.text,
@@ -99,6 +134,9 @@ class _RegisterState extends State<Register> {
                 const SizedBox(height: 32.0),
                 // Enter Your Password
                 TextFormField(
+                  onChanged: (password) {
+                    onPasswordChanged(password);
+                  },
                   // we return "null" when something is valid
                   validator: (value) {
                     return value!.length < 8
@@ -122,6 +160,138 @@ class _RegisterState extends State<Register> {
                               : const Icon(Icons.visibility_off))),
                 ),
                 const SizedBox(height: 32.0),
+                Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: isPassword8Char ? Colors.green : Colors.white,
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 189, 189, 189)),
+                      ),
+                      child: const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 11,
+                    ),
+                    const Text("At least 8 characters"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color:
+                            isPasswordHas1Number ? Colors.green : Colors.white,
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 189, 189, 189)),
+                      ),
+                      child: const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 11,
+                    ),
+                    const Text("At least 1 number"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: hasUppercase ? Colors.green : Colors.white,
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 189, 189, 189)),
+                      ),
+                      child: const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 11,
+                    ),
+                    const Text("Has Uppercase"),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: hasLowercase ? Colors.green : Colors.white,
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 189, 189, 189)),
+                      ),
+                      child: const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 11,
+                    ),
+                    const Text("Has  Lowercase "),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color:
+                            hasSpecialCharacters ? Colors.green : Colors.white,
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 189, 189, 189)),
+                      ),
+                      child: const Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 11,
+                    ),
+                    const Text("Has  Special Characters "),
+                  ],
+                ),
+                const SizedBox(
+                  height: 33,
+                ),
                 // Sign in Register
                 ElevatedButton(
                   onPressed: () {
