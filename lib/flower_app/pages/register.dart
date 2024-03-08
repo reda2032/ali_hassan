@@ -2,6 +2,7 @@ import 'package:ali_hassan/flower_app/pages/login.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
 import 'package:ali_hassan/flower_app/shared/contants.dart';
 import 'package:ali_hassan/flower_app/shared/snackbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,9 @@ class _RegisterState extends State<Register> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final usernameController = TextEditingController();
+  final ageController = TextEditingController();
+  final titleController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   register() async {
@@ -61,10 +65,26 @@ class _RegisterState extends State<Register> {
     });
 
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+      print(credential.user!.uid);
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('usersss');
+
+      users
+          .doc(credential.user!.uid)
+          .set({
+            'username': usernameController.text,
+            'age': ageController.text,
+            "title": titleController.text,
+            "email": emailController.text,
+            "pass": passwordController.text,
+          })
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         showSnackBar(context, 'The password provided is too weak.');
@@ -86,9 +106,11 @@ class _RegisterState extends State<Register> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     emailController.dispose();
     passwordController.dispose();
+    usernameController.dispose();
+    ageController.dispose();
+    titleController.dispose();
     super.dispose();
   }
 
@@ -116,6 +138,7 @@ class _RegisterState extends State<Register> {
                 const SizedBox(height: 32.0),
                 // Enter Your age :
                 TextFormField(
+                    controller: ageController,
                     keyboardType: TextInputType.number,
                     obscureText: false,
                     decoration: decorationTextfield.copyWith(
@@ -126,6 +149,7 @@ class _RegisterState extends State<Register> {
                 ),
                 // Enter Your title :
                 TextFormField(
+                    controller: titleController,
                     keyboardType: TextInputType.text,
                     obscureText: false,
                     decoration: decorationTextfield.copyWith(
