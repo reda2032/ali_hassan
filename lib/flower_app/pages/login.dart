@@ -1,10 +1,13 @@
 import 'package:ali_hassan/flower_app/pages/forgot_passowrd.dart';
 import 'package:ali_hassan/flower_app/pages/home.dart';
 import 'package:ali_hassan/flower_app/pages/register.dart';
+import 'package:ali_hassan/flower_app/provider/google_signin.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
 import 'package:ali_hassan/flower_app/shared/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../shared/custom_textfield.dart';
 
@@ -44,6 +47,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final googleSignInProvider = Provider.of<GoogleSignInProvider>(context);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -76,7 +80,7 @@ class _LoginState extends State<Login> {
                   await signIn();
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Home()),
+                    MaterialPageRoute(builder: (context) => const Home()),
                   );
                 },
                 style: ButtonStyle(
@@ -95,10 +99,11 @@ class _LoginState extends State<Login> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ForgotPassword()),
+                    MaterialPageRoute(
+                        builder: (context) => const ForgotPassword()),
                   );
                 },
-                child: Text("Forgot password?",
+                child: const Text("Forgot password?",
                     style: TextStyle(
                         fontSize: 18, decoration: TextDecoration.underline)),
               ),
@@ -126,7 +131,48 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ],
-              )
+              ),
+              const SizedBox(
+                width: 299,
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Divider(
+                      thickness: 0.6,
+                    )),
+                    Text(
+                      "OR",
+                      style: TextStyle(),
+                    ),
+                    Expanded(
+                        child: Divider(
+                      thickness: 0.6,
+                    )),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 27),
+                child: GestureDetector(
+                  onTap: () {
+                    googleSignInProvider.googlelogin();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(13),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            // color: Colors.purple,
+                            color: const Color.fromARGB(255, 200, 67, 79),
+                            width: 1)),
+                    child: SvgPicture.asset(
+                      "assets/icons/google.svg",
+                      color: const Color.fromARGB(255, 200, 67, 79),
+                      height: 27,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
