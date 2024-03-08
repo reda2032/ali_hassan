@@ -1,6 +1,7 @@
 import 'package:ali_hassan/flower_app/model/item.dart';
 import 'package:ali_hassan/flower_app/pages/checkout.dart';
 import 'package:ali_hassan/flower_app/pages/details_screen.dart';
+import 'package:ali_hassan/flower_app/pages/login.dart';
 import 'package:ali_hassan/flower_app/provider/cart_provider.dart';
 import 'package:ali_hassan/flower_app/shared/appbar.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
@@ -70,6 +71,11 @@ class Home extends StatelessWidget {
                     onTap: () async {
                       await FirebaseAuth.instance.signOut();
                       showSnackBar(context, "signOut ... ");
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Login(),
+                          ));
                     }),
               ],
             ),

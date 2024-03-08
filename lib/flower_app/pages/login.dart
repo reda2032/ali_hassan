@@ -1,3 +1,4 @@
+import 'package:ali_hassan/flower_app/pages/forgot_passowrd.dart';
 import 'package:ali_hassan/flower_app/pages/home.dart';
 import 'package:ali_hassan/flower_app/pages/register.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
@@ -90,6 +91,17 @@ class _LoginState extends State<Login> {
                 ),
               ),
               const SizedBox(height: 32.0),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ForgotPassword()),
+                  );
+                },
+                child: Text("Forgot password?",
+                    style: TextStyle(
+                        fontSize: 18, decoration: TextDecoration.underline)),
+              ),
               // Do not have an account?
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -107,6 +119,7 @@ class _LoginState extends State<Login> {
                     child: const Text(
                       'sign up',
                       style: TextStyle(
+                        decoration: TextDecoration.underline,
                         color: Colors.black,
                         fontSize: 18,
                       ),

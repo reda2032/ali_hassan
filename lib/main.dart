@@ -1,6 +1,6 @@
 import 'package:ali_hassan/firebase_options.dart';
-import 'package:ali_hassan/flower_app/pages/home.dart';
 import 'package:ali_hassan/flower_app/pages/login.dart';
+import 'package:ali_hassan/flower_app/pages/verify_email.dart';
 import 'package:ali_hassan/flower_app/provider/cart_provider.dart';
 import 'package:ali_hassan/flower_app/shared/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
             } else if (snapshot.hasError) {
               return showSnackBar(context, "Something went wrong");
             } else if (snapshot.hasData) {
-              return const Home();
+              return const VerifyEmailPage(); // home  or VerifyEmail
             } else {
               return const Login();
             }
