@@ -114,6 +114,26 @@ class _RegisterState extends State<Register> {
                       suffixIcon: const Icon(Icons.person)),
                 ),
                 const SizedBox(height: 32.0),
+                // Enter Your age :
+                TextFormField(
+                    keyboardType: TextInputType.number,
+                    obscureText: false,
+                    decoration: decorationTextfield.copyWith(
+                        hintText: "Enter Your age : ",
+                        suffixIcon: Icon(Icons.pest_control_rodent))),
+                const SizedBox(
+                  height: 22,
+                ),
+                // Enter Your title :
+                TextFormField(
+                    keyboardType: TextInputType.text,
+                    obscureText: false,
+                    decoration: decorationTextfield.copyWith(
+                        hintText: "Enter Your title : ",
+                        suffixIcon: Icon(Icons.person_outline))),
+                const SizedBox(
+                  height: 22,
+                ),
                 // Email
                 TextFormField(
                   // we return "null" when something is valid

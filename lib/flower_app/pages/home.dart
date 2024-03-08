@@ -2,6 +2,7 @@ import 'package:ali_hassan/flower_app/model/item.dart';
 import 'package:ali_hassan/flower_app/pages/checkout.dart';
 import 'package:ali_hassan/flower_app/pages/details_screen.dart';
 import 'package:ali_hassan/flower_app/pages/login.dart';
+import 'package:ali_hassan/flower_app/pages/profile_page.dart';
 import 'package:ali_hassan/flower_app/provider/cart_provider.dart';
 import 'package:ali_hassan/flower_app/shared/appbar.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
@@ -68,6 +69,17 @@ class Home extends StatelessWidget {
                     title: const Text("About"),
                     leading: const Icon(Icons.help_center),
                     onTap: () {}),
+                ListTile(
+                    title: Text("Profile Page"),
+                    leading: Icon(Icons.person),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(),
+                        ),
+                      );
+                    }),
                 ListTile(
                     title: const Text("Logout"),
                     leading: const Icon(Icons.exit_to_app),
