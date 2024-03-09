@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:ali_hassan/flower_app/pages/login.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
@@ -7,8 +8,10 @@ import 'package:ali_hassan/flower_app/shared/snackbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' show basename;
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -26,6 +29,7 @@ class _RegisterState extends State<Register> {
   bool hasLowercase = false;
   bool hasSpecialCharacters = false;
   File? imgPath;
+  String? imgName;
 
   onPasswordChanged(String password) {
     isPassword8Char = false;
@@ -74,6 +78,10 @@ class _RegisterState extends State<Register> {
         email: emailController.text,
         password: passwordController.text,
       );
+      // Upload image to firebase storage
+      final storageRef = FirebaseStorage.instance.ref(imgName);
+      await storageRef.putFile(imgPath!);
+
       print(credential.user!.uid);
       CollectionReference users =
           FirebaseFirestore.instance.collection('usersss');
@@ -383,7 +391,9 @@ class _RegisterState extends State<Register> {
                 // Sign in Register
                 ElevatedButton(
                   onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
+                    if (_formKey.currentState!.validate() &&
+                        imgName != null &&
+                        imgPath != null) {
                       await register();
                       if (!mounted) return;
                       showSnackBar(context, 'D O N E . . .');
@@ -511,6 +521,9 @@ class _RegisterState extends State<Register> {
       if (pickedImg != null) {
         setState(() {
           imgPath = File(pickedImg.path);
+          imgName = basename(pickedImg.path);
+          int random = Random().nextInt(9999999);
+          imgName = "$random$imgName";
         });
       } else {
         print("NO img selected");
