@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ali_hassan/flower_app/pages/login.dart';
 import 'package:ali_hassan/flower_app/shared/colors.dart';
 import 'package:ali_hassan/flower_app/shared/contants.dart';
@@ -6,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -22,6 +25,7 @@ class _RegisterState extends State<Register> {
   bool hasUppercase = false;
   bool hasLowercase = false;
   bool hasSpecialCharacters = false;
+  File? imgPath;
 
   onPasswordChanged(String password) {
     isPassword8Char = false;
@@ -126,7 +130,47 @@ class _RegisterState extends State<Register> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // const SizedBox(height: 64.0),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.fromARGB(125, 78, 91, 110),
+                  ),
+                  child: Stack(
+                    children: [
+                      imgPath == null
+                          ? const CircleAvatar(
+                              backgroundColor:
+                                  Color.fromARGB(255, 225, 225, 225),
+                              radius: 71,
+                              // backgroundImage: AssetImage("assets/img/avatar.png"),
+                              backgroundImage:
+                                  AssetImage("assets/img/avatar.png"),
+                            )
+                          : ClipOval(
+                              child: Image.file(
+                                imgPath!,
+                                width: 145,
+                                height: 145,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                      Positioned(
+                        left: 99,
+                        bottom: -10,
+                        child: IconButton(
+                          onPressed: () {
+                            //   uploadImage2Screen();
+                            showmodel();
+                          },
+                          icon: const Icon(Icons.add_a_photo),
+                          color: const Color.fromARGB(255, 94, 115, 128),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 32.0),
                 //   Enter Your user name
                 TextFormField(
                   keyboardType: TextInputType.text,
@@ -143,7 +187,7 @@ class _RegisterState extends State<Register> {
                     obscureText: false,
                     decoration: decorationTextfield.copyWith(
                         hintText: "Enter Your age : ",
-                        suffixIcon: Icon(Icons.pest_control_rodent))),
+                        suffixIcon: const Icon(Icons.pest_control_rodent))),
                 const SizedBox(
                   height: 22,
                 ),
@@ -154,7 +198,7 @@ class _RegisterState extends State<Register> {
                     obscureText: false,
                     decoration: decorationTextfield.copyWith(
                         hintText: "Enter Your title : ",
-                        suffixIcon: Icon(Icons.person_outline))),
+                        suffixIcon: const Icon(Icons.person_outline))),
                 const SizedBox(
                   height: 22,
                 ),
@@ -346,7 +390,7 @@ class _RegisterState extends State<Register> {
 
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => Login()),
+                        MaterialPageRoute(builder: (context) => const Login()),
                       );
                     } else {
                       showSnackBar(context, "ERROR");
@@ -399,5 +443,83 @@ class _RegisterState extends State<Register> {
         ),
       ),
     ));
+  }
+
+  showmodel() {
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(22),
+          height: 170,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  await uploadImage2Screen(ImageSource.camera);
+                },
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.camera,
+                      size: 30,
+                    ),
+                    SizedBox(
+                      width: 11,
+                    ),
+                    Text(
+                      "From Camera",
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              GestureDetector(
+                onTap: () {
+                  uploadImage2Screen(ImageSource.gallery);
+                },
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.photo_outlined,
+                      size: 30,
+                    ),
+                    SizedBox(
+                      width: 11,
+                    ),
+                    Text(
+                      "From Gallery",
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  uploadImage2Screen(ImageSource source) async {
+    final pickedImg = await ImagePicker().pickImage(source: source);
+    try {
+      if (pickedImg != null) {
+        setState(() {
+          imgPath = File(pickedImg.path);
+        });
+      } else {
+        print("NO img selected");
+      }
+    } catch (e) {
+      print("Error => $e");
+    }
+
+    if (!mounted) return;
+    Navigator.pop(context);
   }
 }
