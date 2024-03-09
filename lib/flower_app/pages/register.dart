@@ -81,6 +81,7 @@ class _RegisterState extends State<Register> {
       // Upload image to firebase storage
       final storageRef = FirebaseStorage.instance.ref(imgName);
       await storageRef.putFile(imgPath!);
+      String url = await storageRef.getDownloadURL();
 
       print(credential.user!.uid);
       CollectionReference users =
@@ -89,6 +90,7 @@ class _RegisterState extends State<Register> {
       users
           .doc(credential.user!.uid)
           .set({
+            'imgLink': url,
             'username': usernameController.text,
             'age': ageController.text,
             "title": titleController.text,
